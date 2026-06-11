@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What's Your Portfolio Personality? · @Bar2Trades</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
+
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#0a0a0f;
+  --bg2:#111118;
+  --bg3:#1a1a24;
+  --border:#2a2a38;
+  --border2:#3a3a50;
+  --text:#e8e8f0;
+  --muted:#6b6b88;
+  --accent:#7c6fff;
+  --accent2:#a78fff;
+}
+
+body{
+  font-family:'Space Grotesk',system-ui,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  padding:0;
+}
+
+.wrap{max-width:600px;margin:0 auto;padding:2rem 1.25rem 3rem;}
+
+.intro{text-align:center;padding:2rem 0 1rem;}
+.intro-eyebrow{
+  display:inline-block;font-family:'Space Mono',monospace;
+  font-size:10px;letter-spacing:0.18em;color:var(--accent2);
+  text-transform:uppercase;margin-bottom:1.25rem;
+  border:1px solid rgba(124,111,255,0.3);padding:4px 12px;border-radius:20px;
+}
+.intro h1{font-size:32px;font-weight:700;line-height:1.15;margin-bottom:0.75rem;letter-spacing:-0.02em;}
+.intro h1 span{color:var(--accent2);}
+.intro p{font-size:15px;color:var(--muted);line-height:1.65;max-width:420px;margin:0 auto 2rem;}
+.start-btn{
+  display:inline-block;padding:14px 36px;
+  background:var(--accent);color:#fff;
+  font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:600;
+  border:none;border-radius:10px;cursor:pointer;
+  transition:transform 0.15s,opacity 0.15s;
+}
+.start-btn:hover{opacity:0.88;transform:translateY(-1px);}
+
+.ticker-row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:2.5rem;}
+.ticker{
+  font-family:'Space Mono',monospace;font-size:11px;
+  padding:4px 10px;border-radius:6px;
+  background:var(--bg3);border:1px solid var(--border);color:var(--muted);
+}
+.ticker.up{color:#4ade80;border-color:rgba(74,222,128,0.25);}
+.ticker.down{color:#f87171;border-color:rgba(248,113,113,0.25);}
+
+.quiz{display:none;}
+.quiz.active{display:block;}
+
+.q-header{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:2rem;
+}
+.q-num{font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:0.1em;}
+.q-bar{flex:1;height:2px;background:var(--border);margin:0 16px;border-radius:1px;overflow:hidden;}
+.q-fill{height:100%;background:var(--accent);border-radius:1px;transition:width 0.4s ease;}
+
+.question{font-size:20px;font-weight:600;line-height:1.35;margin-bottom:0.5rem;letter-spacing:-0.01em;}
+.q-sub{font-size:13px;color:var(--muted);margin-bottom:1.75rem;line-height:1.5;}
+
+.choices{display:flex;flex-direction:column;gap:10px;}
+.choice{
+  display:flex;align-items:flex-start;gap:14px;
+  padding:14px 16px;
+  background:var(--bg2);border:1px solid var(--border);border-radius:12px;
+  cursor:pointer;transition:border-color 0.15s,background 0.15s;
+}
+.choice:hover{border-color:var(--accent);background:var(--bg3);}
+.choice.selected{border-color:var(--accent);background:rgba(124,111,255,0.1);}
+.choice-key{
+  font-family:'Space Mono',monospace;font-size:11px;font-weight:700;
+  color:var(--muted);min-width:18px;margin-top:2px;transition:color 0.15s;
+}
+.choice.selected .choice-key{color:var(--accent2);}
+.choice-text{font-size:14px;line-height:1.5;color:var(--text);}
+
+.q-nav{display:flex;justify-content:space-between;align-items:center;margin-top:1.5rem;}
+.back-btn{
+  padding:11px 20px;background:transparent;color:var(--muted);
+  font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:500;
+  border:1px solid var(--border);border-radius:9px;cursor:pointer;
+  transition:color 0.15s,border-color 0.15s;
+}
+.back-btn:hover{color:var(--text);border-color:var(--border2);}
+.back-btn:disabled{opacity:0.2;cursor:not-allowed;}
+.next-btn{
+  padding:11px 28px;background:var(--accent);color:#fff;
+  font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;
+  border:none;border-radius:9px;cursor:pointer;
+  opacity:0.35;transition:opacity 0.2s,transform 0.15s;pointer-events:none;
+}
+.next-btn.ready{opacity:1;pointer-events:all;}
+.next-btn.ready:hover{transform:translateY(-1px);}
+
+.result{display:none;}
+.result.active{display:block;}
+
+.result-card{
+  background:var(--bg2);border:1px solid var(--border2);
+  border-radius:16px;overflow:hidden;margin-bottom:1.25rem;
+}
+.card-top{
+  padding:2rem 1.75rem 1.5rem;
+  background:var(--bg3);border-bottom:1px solid var(--border);
+  position:relative;overflow:hidden;
+}
+.card-grid-bg{
+  position:absolute;inset:0;
+  background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);
+  background-size:32px 32px;opacity:0.4;
+}
+.card-eyebrow{
+  font-family:'Space Mono',monospace;font-size:10px;
+  letter-spacing:0.15em;color:var(--accent2);text-transform:uppercase;
+  margin-bottom:0.75rem;position:relative;z-index:1;
+}
+.card-name{
+  font-size:28px;font-weight:700;letter-spacing:-0.02em;
+  position:relative;z-index:1;margin-bottom:0.5rem;line-height:1.1;
+}
+.card-roast{
+  font-size:14px;color:var(--muted);line-height:1.6;
+  position:relative;z-index:1;max-width:380px;font-style:italic;
+}
+.card-body{padding:1.5rem 1.75rem;}
+.traits-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1.25rem;}
+.trait{
+  background:var(--bg);border:1px solid var(--border);
+  border-radius:10px;padding:12px 14px;
+}
+.trait-label{font-size:10px;font-family:'Space Mono',monospace;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:5px;}
+.trait-val{font-size:14px;font-weight:600;color:var(--text);}
+.stat-row{display:flex;flex-direction:column;gap:8px;}
+.stat-item{display:flex;align-items:center;gap:10px;}
+.stat-label{font-size:12px;color:var(--muted);width:100px;flex-shrink:0;}
+.stat-bar{flex:1;height:4px;background:var(--border);border-radius:2px;overflow:hidden;}
+.stat-fill{height:100%;border-radius:2px;background:var(--accent);transition:width 1s ease;}
+.stat-pct{font-family:'Space Mono',monospace;font-size:11px;color:var(--accent2);width:32px;text-align:right;}
+.card-footer{
+  padding:1rem 1.75rem;border-top:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.brand{font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);}
+.brand span{color:var(--accent2);}
+.compat{font-size:12px;color:var(--muted);}
+.compat strong{color:var(--text);}
+
+.retry-btn{
+  width:100%;padding:13px;border-radius:10px;
+  font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;
+  cursor:pointer;border:1px solid var(--border2);
+  background:var(--bg3);color:var(--text);
+  transition:opacity 0.15s,transform 0.15s;
+}
+.retry-btn:hover{opacity:0.85;transform:translateY(-1px);}
+
+.disclaimer{
+  font-size:11px;color:var(--muted);text-align:center;
+  margin-top:1.25rem;line-height:1.6;opacity:0.6;
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="intro" id="intro">
+  <div class="intro-eyebrow">@Bar2Trades</div>
+  <div class="ticker-row">
+    <span class="ticker up">QQQI +2.4%</span>
+    <span class="ticker down">RDDT -1.8%</span>
+    <span class="ticker up">SCHD +0.6%</span>
+    <span class="ticker down">QS -4.1%</span>
+    <span class="ticker up">AMZN +1.2%</span>
+  </div>
+  <h1>What's your<br><span>portfolio personality?</span></h1>
+  <p>10 questions. No fluff. Find out what kind of trader/investor you actually are — and what it means for your portfolio.</p>
+  <button class="start-btn" onclick="startQuiz()">Find out →</button>
+  <p style="font-size:12px;color:var(--muted);margin-top:1rem;">Takes about 2 minutes</p>
+</div>
+
+<div class="quiz" id="quiz">
+  <div class="q-header">
+    <div class="q-num" id="q-num">01 / 10</div>
+    <div class="q-bar"><div class="q-fill" id="q-fill" style="width:0%"></div></div>
+  </div>
+  <div class="question" id="q-text"></div>
+  <div class="q-sub" id="q-sub"></div>
+  <div class="choices" id="choices"></div>
+  <div class="q-nav">
+    <button class="back-btn" id="back-btn" onclick="prevQ()">← Back</button>
+    <button class="next-btn" id="next-btn" onclick="nextQ()">Next →</button>
+  </div>
+</div>
+
+<div class="result" id="result">
+  <div class="result-card">
+    <div class="card-top">
+      <div class="card-grid-bg"></div>
+      <div class="card-eyebrow">Your portfolio personality · @Bar2Trades</div>
+      <div class="card-name" id="r-name"></div>
+      <div class="card-roast" id="r-roast"></div>
+    </div>
+    <div class="card-body">
+      <div class="traits-grid" id="r-traits"></div>
+      <div class="stat-row" id="r-stats"></div>
+    </div>
+    <div class="card-footer">
+      <div class="brand"><span>@Bar2Trades</span> on X</div>
+      <div class="compat" id="r-compat"></div>
+    </div>
+  </div>
+  <button class="retry-btn" onclick="retry()">↺ Retake the quiz</button>
+  <div class="disclaimer">Not financial advice. For entertainment and educational purposes only.<br>Always do your own research before making investment decisions.</div>
+</div>
+
+</div>
+<script>
+const questions = [
+  {
+    text: "Market opens down 4%. Your first move?",
+    sub: "Be honest — what do you actually do?",
+    choices: [
+      { text: "Check which names are down most — that's my shopping list.", scores: { stage:1, yield:0, momentum:0, degen:2, contrarian:3 } },
+      { text: "Look at the EMA stack on the daily. Is the trend still intact?", scores: { stage:3, yield:0, momentum:2, degen:0, contrarian:1 } },
+      { text: "Nothing. Red days are noise if the stage is right.", scores: { stage:2, yield:1, momentum:0, degen:0, contrarian:2 } },
+      { text: "Panic-check my positions, maybe trim something.", scores: { stage:0, yield:2, momentum:1, degen:0, contrarian:0 } },
+      { text: "Load up. I love a sale.", scores: { stage:0, yield:1, momentum:0, degen:3, contrarian:2 } }
+    ]
+  },
+  {
+    text: "You spot a stock printing higher highs and higher lows, EMA stack perfectly aligned. What's your timeframe?",
+    sub: "Your natural holding window.",
+    choices: [
+      { text: "I'm in it until the EMAs flip. Could be months.", scores: { stage:2, yield:0, momentum:3, degen:1, contrarian:0 } },
+      { text: "Weeks — I follow the Weinstein stage, exit at Stage 3.", scores: { stage:3, yield:0, momentum:2, degen:0, contrarian:0 } },
+      { text: "A few days max. I'm trading the momentum, not the story.", scores: { stage:0, yield:0, momentum:2, degen:2, contrarian:1 } },
+      { text: "Years. I'm not watching charts daily.", scores: { stage:0, yield:3, momentum:0, degen:0, contrarian:1 } },
+      { text: "I'd probably take half off too early then regret it.", scores: { stage:1, yield:1, momentum:1, degen:0, contrarian:0 } }
+    ]
+  },
+  {
+    text: "Your portfolio's ideal income situation?",
+    sub: "Pick what actually sounds like you.",
+    choices: [
+      { text: "Dividends hitting my account every month. Boring is beautiful.", scores: { stage:0, yield:3, momentum:0, degen:0, contrarian:1 } },
+      { text: "Big gains on breakout plays, compounded over time.", scores: { stage:2, yield:0, momentum:3, degen:1, contrarian:0 } },
+      { text: "Covered-call premium + some growth. QQQI energy.", scores: { stage:0, yield:3, momentum:1, degen:0, contrarian:0 } },
+      { text: "One 10x that changes the math entirely.", scores: { stage:0, yield:0, momentum:1, degen:3, contrarian:2 } },
+      { text: "I don't really think about income, I just want price up.", scores: { stage:1, yield:0, momentum:2, degen:2, contrarian:0 } }
+    ]
+  },
+  {
+    text: "A stock you own just went up 40% in 3 weeks. What do you do?",
+    sub: "Real answer only.",
+    choices: [
+      { text: "Check the Weinstein stage. If it's still Stage 2, I hold.", scores: { stage:3, yield:0, momentum:1, degen:0, contrarian:0 } },
+      { text: "Take half off. Lock in profit, let the rest run.", scores: { stage:1, yield:1, momentum:2, degen:0, contrarian:1 } },
+      { text: "Sell it all. 40% is 40%.", scores: { stage:0, yield:2, momentum:0, degen:0, contrarian:2 } },
+      { text: "Add more. Strength follows strength.", scores: { stage:1, yield:0, momentum:3, degen:2, contrarian:0 } },
+      { text: "Panic a little and do nothing.", scores: { stage:0, yield:1, momentum:0, degen:1, contrarian:0 } }
+    ]
+  },
+  {
+    text: "What's your relationship with volatility?",
+    sub: "The VIX just spiked to 35.",
+    choices: [
+      { text: "It's a feature, not a bug. That's where money is made.", scores: { stage:1, yield:0, momentum:1, degen:3, contrarian:2 } },
+      { text: "I hedge a little and stay the course.", scores: { stage:2, yield:1, momentum:1, degen:0, contrarian:1 } },
+      { text: "I reduce exposure and wait for the dust to settle.", scores: { stage:1, yield:2, momentum:0, degen:0, contrarian:0 } },
+      { text: "I check if my yield positions are still paying. Mostly ignore it.", scores: { stage:0, yield:3, momentum:0, degen:0, contrarian:0 } },
+      { text: "I look for Stage 1 bases forming in the carnage.", scores: { stage:3, yield:0, momentum:0, degen:1, contrarian:2 } }
+    ]
+  },
+  {
+    text: "Everyone on X is calling a stock a 'generational buy.' Your move?",
+    sub: "The hype is real. CT is going crazy.",
+    choices: [
+      { text: "Hard pass. If everyone knows, the trade is over.", scores: { stage:1, yield:0, momentum:0, degen:0, contrarian:3 } },
+      { text: "I check the chart. Is it technically valid, or just hype?", scores: { stage:3, yield:0, momentum:1, degen:0, contrarian:1 } },
+      { text: "Small position. I don't want to miss if it's real.", scores: { stage:0, yield:0, momentum:1, degen:2, contrarian:0 } },
+      { text: "I'm probably already in it from Stage 1.", scores: { stage:3, yield:0, momentum:2, degen:1, contrarian:1 } },
+      { text: "I ignore it and check my dividend schedule.", scores: { stage:0, yield:3, momentum:0, degen:0, contrarian:0 } }
+    ]
+  },
+  {
+    text: "Your biggest position is down 20% from entry. You still believe in the thesis.",
+    sub: "This is where character gets revealed.",
+    choices: [
+      { text: "I had a stop loss. It's already out. Lesson learned.", scores: { stage:2, yield:0, momentum:2, degen:0, contrarian:1 } },
+      { text: "I average down. More shares at a better price.", scores: { stage:0, yield:1, momentum:0, degen:2, contrarian:2 } },
+      { text: "I hold. My thesis hasn't changed, only the price.", scores: { stage:1, yield:2, momentum:0, degen:1, contrarian:2 } },
+      { text: "I review the Weinstein stage. If it's Stage 4, I'm out.", scores: { stage:3, yield:0, momentum:1, degen:0, contrarian:0 } },
+      { text: "I sell half to sleep at night.", scores: { stage:1, yield:1, momentum:1, degen:0, contrarian:0 } }
+    ]
+  },
+  {
+    text: "What does your ideal portfolio actually look like?",
+    sub: "Be real about what you're building.",
+    choices: [
+      { text: "High-yielding ETFs, some dividend stocks, compounding income.", scores: { stage:0, yield:3, momentum:0, degen:0, contrarian:1 } },
+      { text: "Stage 2 breakout plays, 10–15 positions, tight stops.", scores: { stage:3, yield:0, momentum:2, degen:0, contrarian:0 } },
+      { text: "A few big conviction bets on emerging tech or trends.", scores: { stage:0, yield:0, momentum:1, degen:3, contrarian:1 } },
+      { text: "Trending stocks with stacked EMAs. Ride momentum, exit fast.", scores: { stage:1, yield:0, momentum:3, degen:1, contrarian:0 } },
+      { text: "Unloved quality names nobody's paying attention to yet.", scores: { stage:1, yield:1, momentum:0, degen:0, contrarian:3 } }
+    ]
+  },
+  {
+    text: "How do you feel about options?",
+    sub: "Honest reaction, not what sounds smart.",
+    choices: [
+      { text: "I sell covered calls on my positions. Free income.", scores: { stage:0, yield:3, momentum:0, degen:0, contrarian:1 } },
+      { text: "I buy calls and puts when I feel they make sense.", scores: { stage:2, yield:0, momentum:2, degen:1, contrarian:2 } },
+      { text: "0DTE. Let's go.", scores: { stage:0, yield:0, momentum:0, degen:3, contrarian:1 } },
+      { text: "I buy puts when I think something's overextended.", scores: { stage:1, yield:0, momentum:0, degen:1, contrarian:3 } },
+      { text: "I don't really touch them — too complicated.", scores: { stage:1, yield:2, momentum:1, degen:0, contrarian:0 } }
+    ]
+  },
+  {
+    text: "It's the end of the year. How do you measure if you won?",
+    sub: "What does a good year actually feel like?",
+    choices: [
+      { text: "Beat the S&P. Simple.", scores: { stage:1, yield:0, momentum:2, degen:2, contrarian:1 } },
+      { text: "My monthly dividend income went up. The machine is bigger.", scores: { stage:0, yield:3, momentum:0, degen:0, contrarian:0 } },
+      { text: "I executed my system with discipline. Results follow.", scores: { stage:3, yield:1, momentum:1, degen:0, contrarian:1 } },
+      { text: "At least one position was a multi-bagger.", scores: { stage:0, yield:0, momentum:1, degen:3, contrarian:1 } },
+      { text: "I was profitable.", scores: { stage:1, yield:1, momentum:1, degen:1, contrarian:1 } }
+    ]
+  }
+];
+
+const personalities = {
+  stage: {
+    name: "The Stage Analyst", emoji: "📊",
+    roast: "You read Weinstein before bed and your stop losses are already set. Your edge is patience — you wait for Stage 2 and let the market come to you. Everyone thinks you're boring. Your returns disagree.",
+    traits: [
+      { label:"Edge", val:"Stage 2 breakouts" }, { label:"Timeframe", val:"Weeks to months" },
+      { label:"Weakness", val:"Misses fast movers" }, { label:"Watches", val:"Weekly EMAs + vol" }
+    ],
+    stats: [{ label:"Patience", pct:90 },{ label:"Risk tolerance", pct:55 },{ label:"System vs gut", pct:88 },{ label:"Degen energy", pct:12 }],
+    compat: "Compatible with: The Contrarian"
+  },
+  yield: {
+    name: "The Yield Architect", emoji: "🏗️",
+    roast: "You love QQQI like most people love their morning coffee. You're not here to beat the market — you're here to build a machine that pays you whether you're watching or not. Boring is your brand, income is your game.",
+    traits: [
+      { label:"Edge", val:"Compounding income" }, { label:"Timeframe", val:"Years" },
+      { label:"Weakness", val:"Misses growth runs" }, { label:"Watches", val:"Ex-div dates, yield" }
+    ],
+    stats: [{ label:"Patience", pct:85 },{ label:"Risk tolerance", pct:35 },{ label:"System vs gut", pct:75 },{ label:"Degen energy", pct:8 }],
+    compat: "Compatible with: The Stage Analyst"
+  },
+  momentum: {
+    name: "The Momentum Rider", emoji: "🏄",
+    roast: "If the EMAs are stacked and price is above the 200, you're in. You don't argue with the tape — you just follow it. You've stopped trying to predict the market and started reading what it's already telling you.",
+    traits: [
+      { label:"Edge", val:"Trend continuation" }, { label:"Timeframe", val:"Days to weeks" },
+      { label:"Weakness", val:"Whipsaws hurt" }, { label:"Watches", val:"9/20/200 EMA daily" }
+    ],
+    stats: [{ label:"Patience", pct:60 },{ label:"Risk tolerance", pct:70 },{ label:"System vs gut", pct:80 },{ label:"Degen energy", pct:40 }],
+    compat: "Compatible with: The Stage Analyst"
+  },
+  contrarian: {
+    name: "The Contrarian", emoji: "🦅",
+    roast: "You see a crowded trade and immediately start looking for the exit. Your best ideas come from ignored sectors and hated charts. Crypto Twitter is your fade signal. You're early, you're patient, and you're almost always eating alone.",
+    traits: [
+      { label:"Edge", val:"Fading crowded trades" }, { label:"Timeframe", val:"Weeks to months" },
+      { label:"Weakness", val:"Can be too early" }, { label:"Watches", val:"Sentiment + stages" }
+    ],
+    stats: [{ label:"Patience", pct:80 },{ label:"Risk tolerance", pct:65 },{ label:"System vs gut", pct:60 },{ label:"Degen energy", pct:35 }],
+    compat: "Compatible with: The Yield Architect"
+  },
+  degen: {
+    name: "The Calculated Degen", emoji: "🎰",
+    roast: "You know the risks, you just don't care. Small account, big swings, let it ride. Your thesis is 'asymmetry' and your position sizing is 'vibes.' The market is a casino and you came to play — but you're sharper than people think.",
+    traits: [
+      { label:"Edge", val:"Asymmetric bets" }, { label:"Timeframe", val:"Hours to weeks" },
+      { label:"Weakness", val:"Sizing discipline" }, { label:"Watches", val:"Options flow, CT" }
+    ],
+    stats: [{ label:"Patience", pct:25 },{ label:"Risk tolerance", pct:95 },{ label:"System vs gut", pct:30 },{ label:"Degen energy", pct:98 }],
+    compat: "Compatible with: The Momentum Rider"
+  }
+};
+
+let current = 0;
+let answers = new Array(questions.length).fill(null);
+let winnerKey = null;
+
+function startQuiz() {
+  document.getElementById('intro').style.display = 'none';
+  document.getElementById('quiz').classList.add('active');
+  renderQ();
+}
+
+function renderQ() {
+  const q = questions[current];
+  document.getElementById('q-num').textContent = String(current+1).padStart(2,'0') + ' / ' + questions.length;
+  document.getElementById('q-fill').style.width = (current / questions.length * 100) + '%';
+  document.getElementById('q-text').textContent = q.text;
+  document.getElementById('q-sub').textContent = q.sub;
+
+  const keys = ['A','B','C','D','E'];
+  const container = document.getElementById('choices');
+  container.innerHTML = '';
+
+  const nextBtn = document.getElementById('next-btn');
+  nextBtn.classList.remove('ready');
+  nextBtn.textContent = current === questions.length - 1 ? 'See my result →' : 'Next →';
+
+  const backBtn = document.getElementById('back-btn');
+  backBtn.disabled = current === 0;
+
+  q.choices.forEach((c, i) => {
+    const div = document.createElement('div');
+    div.className = 'choice' + (answers[current] === i ? ' selected' : '');
+    div.innerHTML = '<div class="choice-key">' + keys[i] + '</div><div class="choice-text">' + c.text + '</div>';
+    div.onclick = () => selectChoice(i, div);
+    container.appendChild(div);
+  });
+
+  if (answers[current] !== null) nextBtn.classList.add('ready');
+}
+
+function selectChoice(i, el) {
+  document.querySelectorAll('.choice').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  answers[current] = i;
+  document.getElementById('next-btn').classList.add('ready');
+}
+
+function prevQ() {
+  if (current === 0) return;
+  current--;
+  renderQ();
+}
+
+function nextQ() {
+  if (answers[current] === null) return;
+  if (current < questions.length - 1) {
+    current++;
+    renderQ();
+  } else {
+    showResult();
+  }
+}
+
+function calcScores() {
+  const s = { stage:0, yield:0, momentum:0, degen:0, contrarian:0 };
+  answers.forEach((ans, qi) => {
+    if (ans === null) return;
+    const sc = questions[qi].choices[ans].scores;
+    Object.keys(sc).forEach(k => s[k] += sc[k]);
+  });
+  return s;
+}
+
+function showResult() {
+  document.getElementById('quiz').classList.remove('active');
+  document.getElementById('result').classList.add('active');
+
+  const scores = calcScores();
+  winnerKey = Object.entries(scores).sort((a,b) => b[1]-a[1])[0][0];
+  const p = personalities[winnerKey];
+
+  document.getElementById('r-name').textContent = p.emoji + ' ' + p.name;
+  document.getElementById('r-roast').textContent = p.roast;
+  document.getElementById('r-compat').innerHTML = '<strong>' + p.compat + '</strong>';
+
+  const traitsEl = document.getElementById('r-traits');
+  traitsEl.innerHTML = '';
+  p.traits.forEach(t => {
+    traitsEl.innerHTML += '<div class="trait"><div class="trait-label">' + t.label + '</div><div class="trait-val">' + t.val + '</div></div>';
+  });
+
+  const statsEl = document.getElementById('r-stats');
+  statsEl.innerHTML = '';
+  p.stats.forEach(s => {
+    statsEl.innerHTML += '<div class="stat-item"><div class="stat-label">' + s.label + '</div><div class="stat-bar"><div class="stat-fill" style="width:0%" data-pct="' + s.pct + '"></div></div><div class="stat-pct">' + s.pct + '%</div></div>';
+  });
+
+  setTimeout(() => {
+    document.querySelectorAll('.stat-fill').forEach(el => {
+      el.style.width = el.dataset.pct + '%';
+    });
+  }, 100);
+}
+
+function retry() {
+  current = 0;
+  answers = new Array(questions.length).fill(null);
+  winnerKey = null;
+  document.getElementById('result').classList.remove('active');
+  document.getElementById('intro').style.display = 'block';
+}
+</script>
+</body>
+</html>
