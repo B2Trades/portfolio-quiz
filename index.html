@@ -234,110 +234,100 @@ const questions = [
     text: "Market opens down 4%. Your first move?",
     sub: "Be honest — what do you actually do?",
     choices: [
-      { text: "Check which names are down most — that's my shopping list.", scores: { stage:1, yield:0, momentum:0, degen:2, contrarian:3 } },
-      { text: "Look at the EMA stack on the daily. Is the trend still intact?", scores: { stage:3, yield:0, momentum:2, degen:0, contrarian:1 } },
-      { text: "Nothing. Red days are noise if the stage is right.", scores: { stage:2, yield:1, momentum:0, degen:0, contrarian:2 } },
-      { text: "Panic-check my positions, maybe trim something.", scores: { stage:0, yield:2, momentum:1, degen:0, contrarian:0 } },
-      { text: "Load up. I love a sale.", scores: { stage:0, yield:1, momentum:0, degen:3, contrarian:2 } }
+      { text: "Check which names are down most — that's my shopping list.", scores: { stage:1, yield:0, momentum:0, degen:2, contrarian:3, crypto:1 } },
+      { text: "Look at the EMA stack on the daily. Is the trend still intact?", scores: { stage:3, yield:0, momentum:2, degen:0, contrarian:1, crypto:0 } },
+      { text: "Nothing. Red days are noise if the stage is right.", scores: { stage:2, yield:1, momentum:0, degen:0, contrarian:2, crypto:1 } },
+      { text: "Panic-check my positions, maybe trim something.", scores: { stage:0, yield:2, momentum:1, degen:0, contrarian:0, crypto:0 } },
+      { text: "Load up. I love a sale.", scores: { stage:0, yield:1, momentum:0, degen:3, contrarian:2, crypto:2 } }
     ]
   },
   {
-    text: "You spot a stock printing higher highs and higher lows, EMA stack perfectly aligned. What's your timeframe?",
-    sub: "Your natural holding window.",
+    text: "Do you believe in Crypto?",
+    sub: "No judgment. Just be real.",
     choices: [
-      { text: "I'm in it until the EMAs flip. Could be months.", scores: { stage:2, yield:0, momentum:3, degen:1, contrarian:0 } },
-      { text: "Weeks — I follow the Weinstein stage, exit at Stage 3.", scores: { stage:3, yield:0, momentum:2, degen:0, contrarian:0 } },
-      { text: "A few days max. I'm trading the momentum, not the story.", scores: { stage:0, yield:0, momentum:2, degen:2, contrarian:1 } },
-      { text: "Years. I'm not watching charts daily.", scores: { stage:0, yield:3, momentum:0, degen:0, contrarian:1 } },
-      { text: "I'd probably take half off too early then regret it.", scores: { stage:1, yield:1, momentum:1, degen:0, contrarian:0 } }
+      { text: "Yes — it's the future of money.", scores: { stage:0, yield:0, momentum:0, degen:2, contrarian:0, crypto:4 } },
+      { text: "No — I'll stick to real assets.", scores: { stage:1, yield:1, momentum:1, degen:0, contrarian:1, crypto:0 } }
     ]
   },
   {
     text: "Your portfolio's ideal income situation?",
     sub: "Pick what actually sounds like you.",
     choices: [
-      { text: "Dividends hitting my account every month. Boring is beautiful.", scores: { stage:0, yield:3, momentum:0, degen:0, contrarian:1 } },
-      { text: "Big gains on breakout plays, compounded over time.", scores: { stage:2, yield:0, momentum:3, degen:1, contrarian:0 } },
-      { text: "Covered-call premium + some growth. QQQI energy.", scores: { stage:0, yield:3, momentum:1, degen:0, contrarian:0 } },
-      { text: "One 10x that changes the math entirely.", scores: { stage:0, yield:0, momentum:1, degen:3, contrarian:2 } },
-      { text: "I don't really think about income, I just want price up.", scores: { stage:1, yield:0, momentum:2, degen:2, contrarian:0 } }
+      { text: "Dividends hitting my account every month. Boring is beautiful.", scores: { stage:0, yield:3, momentum:0, degen:0, contrarian:1, crypto:0 } },
+      { text: "Big gains on breakout plays, compounded over time.", scores: { stage:2, yield:0, momentum:3, degen:1, contrarian:0, crypto:0 } },
+      { text: "Covered-call premium + some growth. QQQI energy.", scores: { stage:0, yield:3, momentum:1, degen:0, contrarian:0, crypto:0 } },
+      { text: "One 10x that changes the math entirely.", scores: { stage:0, yield:0, momentum:1, degen:3, contrarian:2, crypto:3 } },
+      { text: "I don't really think about income, I just want price up.", scores: { stage:1, yield:0, momentum:2, degen:2, contrarian:0, crypto:1 } }
     ]
   },
   {
     text: "A stock you own just went up 40% in 3 weeks. What do you do?",
     sub: "Real answer only.",
     choices: [
-      { text: "Check the Weinstein stage. If it's still Stage 2, I hold.", scores: { stage:3, yield:0, momentum:1, degen:0, contrarian:0 } },
-      { text: "Take half off. Lock in profit, let the rest run.", scores: { stage:1, yield:1, momentum:2, degen:0, contrarian:1 } },
-      { text: "Sell it all. 40% is 40%.", scores: { stage:0, yield:2, momentum:0, degen:0, contrarian:2 } },
-      { text: "Add more. Strength follows strength.", scores: { stage:1, yield:0, momentum:3, degen:2, contrarian:0 } },
-      { text: "Panic a little and do nothing.", scores: { stage:0, yield:1, momentum:0, degen:1, contrarian:0 } }
+      { text: "Check the Weinstein stage. If it's still Stage 2, I hold.", scores: { stage:3, yield:0, momentum:1, degen:0, contrarian:0, crypto:0 } },
+      { text: "Take half off. Lock in profit, let the rest run.", scores: { stage:1, yield:1, momentum:2, degen:0, contrarian:1, crypto:0 } },
+      { text: "Sell it all. 40% is 40%.", scores: { stage:0, yield:2, momentum:0, degen:0, contrarian:2, crypto:0 } },
+      { text: "Add more. Strength follows strength.", scores: { stage:1, yield:0, momentum:3, degen:2, contrarian:0, crypto:1 } },
+      { text: "Panic a little and do nothing.", scores: { stage:0, yield:1, momentum:0, degen:1, contrarian:0, crypto:0 } }
     ]
   },
   {
-    text: "What's your relationship with volatility?",
-    sub: "The VIX just spiked to 35.",
+    text: "The market just made its 5th all time high in the past month, and the president is about to speak on a big economic event... what are you going to do?",
+    sub: "Gut check time.",
     choices: [
-      { text: "It's a feature, not a bug. That's where money is made.", scores: { stage:1, yield:0, momentum:1, degen:3, contrarian:2 } },
-      { text: "I hedge a little and stay the course.", scores: { stage:2, yield:1, momentum:1, degen:0, contrarian:1 } },
-      { text: "I reduce exposure and wait for the dust to settle.", scores: { stage:1, yield:2, momentum:0, degen:0, contrarian:0 } },
-      { text: "I check if my yield positions are still paying. Mostly ignore it.", scores: { stage:0, yield:3, momentum:0, degen:0, contrarian:0 } },
-      { text: "I look for Stage 1 bases forming in the carnage.", scores: { stage:3, yield:0, momentum:0, degen:1, contrarian:2 } }
+      { text: "Buy the news 🚀", scores: { stage:0, yield:0, momentum:3, degen:3, contrarian:0, crypto:3 } },
+      { text: "The market's going to crash 🔴", scores: { stage:1, yield:2, momentum:0, degen:0, contrarian:3, crypto:0 } }
     ]
   },
   {
     text: "Everyone on X is calling a stock a 'generational buy.' Your move?",
     sub: "The hype is real. CT is going crazy.",
     choices: [
-      { text: "Hard pass. If everyone knows, the trade is over.", scores: { stage:1, yield:0, momentum:0, degen:0, contrarian:3 } },
-      { text: "I check the chart. Is it technically valid, or just hype?", scores: { stage:3, yield:0, momentum:1, degen:0, contrarian:1 } },
-      { text: "Small position. I don't want to miss if it's real.", scores: { stage:0, yield:0, momentum:1, degen:2, contrarian:0 } },
-      { text: "I'm probably already in it from Stage 1.", scores: { stage:3, yield:0, momentum:2, degen:1, contrarian:1 } },
-      { text: "I ignore it and check my dividend schedule.", scores: { stage:0, yield:3, momentum:0, degen:0, contrarian:0 } }
+      { text: "Hard pass. If everyone knows, the trade is over.", scores: { stage:1, yield:0, momentum:0, degen:0, contrarian:3, crypto:0 } },
+      { text: "I check the chart. Is it technically valid, or just hype?", scores: { stage:3, yield:0, momentum:1, degen:0, contrarian:1, crypto:0 } },
+      { text: "Small position. I don't want to miss if it's real.", scores: { stage:0, yield:0, momentum:1, degen:2, contrarian:0, crypto:1 } },
+      { text: "I'm probably already in it from Stage 1.", scores: { stage:3, yield:0, momentum:2, degen:1, contrarian:1, crypto:0 } },
+      { text: "I ignore it and check my dividend schedule.", scores: { stage:0, yield:3, momentum:0, degen:0, contrarian:0, crypto:0 } }
     ]
   },
   {
-    text: "Your biggest position is down 20% from entry. You still believe in the thesis.",
-    sub: "This is where character gets revealed.",
+    text: "Would you rather:",
+    sub: "One answer only — no overthinking it.",
     choices: [
-      { text: "I had a stop loss. It's already out. Lesson learned.", scores: { stage:2, yield:0, momentum:2, degen:0, contrarian:1 } },
-      { text: "I average down. More shares at a better price.", scores: { stage:0, yield:1, momentum:0, degen:2, contrarian:2 } },
-      { text: "I hold. My thesis hasn't changed, only the price.", scores: { stage:1, yield:2, momentum:0, degen:1, contrarian:2 } },
-      { text: "I review the Weinstein stage. If it's Stage 4, I'm out.", scores: { stage:3, yield:0, momentum:1, degen:0, contrarian:0 } },
-      { text: "I sell half to sleep at night.", scores: { stage:1, yield:1, momentum:1, degen:0, contrarian:0 } }
-    ]
-  },
-  {
-    text: "What does your ideal portfolio actually look like?",
-    sub: "Be real about what you're building.",
-    choices: [
-      { text: "High-yielding ETFs, some dividend stocks, compounding income.", scores: { stage:0, yield:3, momentum:0, degen:0, contrarian:1 } },
-      { text: "Stage 2 breakout plays, 10–15 positions, tight stops.", scores: { stage:3, yield:0, momentum:2, degen:0, contrarian:0 } },
-      { text: "A few big conviction bets on emerging tech or trends.", scores: { stage:0, yield:0, momentum:1, degen:3, contrarian:1 } },
-      { text: "Trending stocks with stacked EMAs. Ride momentum, exit fast.", scores: { stage:1, yield:0, momentum:3, degen:1, contrarian:0 } },
-      { text: "Unloved quality names nobody's paying attention to yet.", scores: { stage:1, yield:1, momentum:0, degen:0, contrarian:3 } }
+      { text: "Get a lump sum of $100,000 right now.", scores: { stage:0, yield:2, momentum:1, degen:2, contrarian:1, crypto:1 } },
+      { text: "Double your current annual income.", scores: { stage:1, yield:3, momentum:1, degen:0, contrarian:1, crypto:0 } },
+      { text: "Wait 5 years for $1,000,000.", scores: { stage:2, yield:1, momentum:1, degen:1, contrarian:2, crypto:2 } }
     ]
   },
   {
     text: "How do you feel about options?",
     sub: "Honest reaction, not what sounds smart.",
     choices: [
-      { text: "I sell covered calls on my positions. Free income.", scores: { stage:0, yield:3, momentum:0, degen:0, contrarian:1 } },
-      { text: "I buy calls and puts when I feel they make sense.", scores: { stage:2, yield:0, momentum:2, degen:1, contrarian:2 } },
-      { text: "0DTE. Let's go.", scores: { stage:0, yield:0, momentum:0, degen:3, contrarian:1 } },
-      { text: "I buy puts when I think something's overextended.", scores: { stage:1, yield:0, momentum:0, degen:1, contrarian:3 } },
-      { text: "I don't really touch them — too complicated.", scores: { stage:1, yield:2, momentum:1, degen:0, contrarian:0 } }
+      { text: "0DTE — Let's go.", scores: { stage:0, yield:0, momentum:0, degen:3, contrarian:1, crypto:2 } },
+      { text: "I sell covered calls on my positions. Free income.", scores: { stage:0, yield:3, momentum:0, degen:0, contrarian:1, crypto:0 } },
+      { text: "I buy calls and puts.", scores: { stage:2, yield:0, momentum:2, degen:1, contrarian:2, crypto:0 } },
+      { text: "I buy puts at all time highs.", scores: { stage:1, yield:0, momentum:0, degen:1, contrarian:3, crypto:0 } },
+      { text: "Options are gambling.", scores: { stage:1, yield:2, momentum:1, degen:0, contrarian:0, crypto:1 } }
+    ]
+  },
+  {
+    text: "Your dream lifestyle is:",
+    sub: "Be honest — no wrong answers here.",
+    choices: [
+      { text: "Expensive vacations & bottle service.", scores: { stage:0, yield:0, momentum:1, degen:2, contrarian:0, crypto:3 } },
+      { text: "Calm, frugal and predictable with a lot of money in the bank.", scores: { stage:1, yield:3, momentum:0, degen:0, contrarian:2, crypto:0 } },
+      { text: "Expensive cars, houses, and private jets.", scores: { stage:0, yield:0, momentum:2, degen:3, contrarian:0, crypto:3 } }
     ]
   },
   {
     text: "It's the end of the year. How do you measure if you won?",
     sub: "What does a good year actually feel like?",
     choices: [
-      { text: "Beat the S&P. Simple.", scores: { stage:1, yield:0, momentum:2, degen:2, contrarian:1 } },
-      { text: "My monthly dividend income went up. The machine is bigger.", scores: { stage:0, yield:3, momentum:0, degen:0, contrarian:0 } },
-      { text: "I executed my system with discipline. Results follow.", scores: { stage:3, yield:1, momentum:1, degen:0, contrarian:1 } },
-      { text: "At least one position was a multi-bagger.", scores: { stage:0, yield:0, momentum:1, degen:3, contrarian:1 } },
-      { text: "I was profitable.", scores: { stage:1, yield:1, momentum:1, degen:1, contrarian:1 } }
+      { text: "Beat the S&P. Simple.", scores: { stage:1, yield:0, momentum:2, degen:2, contrarian:1, crypto:0 } },
+      { text: "My monthly dividend income went up. The machine is bigger.", scores: { stage:0, yield:3, momentum:0, degen:0, contrarian:0, crypto:0 } },
+      { text: "I executed my system with discipline. Results follow.", scores: { stage:3, yield:1, momentum:1, degen:0, contrarian:1, crypto:0 } },
+      { text: "At least one position was a multi-bagger.", scores: { stage:0, yield:0, momentum:1, degen:3, contrarian:1, crypto:2 } },
+      { text: "I was profitable.", scores: { stage:1, yield:1, momentum:1, degen:1, contrarian:1, crypto:1 } }
     ]
   }
 ];
@@ -392,6 +382,16 @@ const personalities = {
     ],
     stats: [{ label:"Patience", pct:25 },{ label:"Risk tolerance", pct:95 },{ label:"System vs gut", pct:30 },{ label:"Degen energy", pct:98 }],
     compat: "Compatible with: The Momentum Rider"
+  },
+  crypto: {
+    name: "The Crypto Bro/Sis", emoji: "🚀",
+    roast: "Diamond hands. Laser eyes. You've explained blockchain to someone at Thanksgiving and you'd do it again. The dip is a gift, the crash is FUD, and you have a hardware wallet but can't remember the PIN. WAGMI — and you actually mean it.",
+    traits: [
+      { label:"Edge", val:"Early adoption" }, { label:"Timeframe", val:"Hold forever or bust" },
+      { label:"Weakness", val:"Recency bias" }, { label:"Watches", val:"BTC dominance, CT" }
+    ],
+    stats: [{ label:"Patience", pct:70 },{ label:"Risk tolerance", pct:99 },{ label:"System vs gut", pct:20 },{ label:"Degen energy", pct:95 }],
+    compat: "Compatible with: The Calculated Degen"
   }
 };
 
@@ -420,8 +420,7 @@ function renderQ() {
   nextBtn.classList.remove('ready');
   nextBtn.textContent = current === questions.length - 1 ? 'See my result →' : 'Next →';
 
-  const backBtn = document.getElementById('back-btn');
-  backBtn.disabled = current === 0;
+  document.getElementById('back-btn').disabled = current === 0;
 
   q.choices.forEach((c, i) => {
     const div = document.createElement('div');
@@ -458,11 +457,11 @@ function nextQ() {
 }
 
 function calcScores() {
-  const s = { stage:0, yield:0, momentum:0, degen:0, contrarian:0 };
+  const s = { stage:0, yield:0, momentum:0, degen:0, contrarian:0, crypto:0 };
   answers.forEach((ans, qi) => {
     if (ans === null) return;
     const sc = questions[qi].choices[ans].scores;
-    Object.keys(sc).forEach(k => s[k] += sc[k]);
+    Object.keys(sc).forEach(k => { if (s[k] !== undefined) s[k] += sc[k]; });
   });
   return s;
 }
